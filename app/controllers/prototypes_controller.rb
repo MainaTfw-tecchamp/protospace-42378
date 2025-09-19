@@ -39,14 +39,19 @@ class PrototypesController < ApplicationController
 
     def destroy
       prototype = Prototype.find(params[:id])
-      prototype.destroy
+      if prototype.user_id == current_user.id
+        prototype.destroy
+        flash[:success] = "プロトタイプを削除しました。"
+      else
+        flash[:alert] = "権限がありません。"
+      end
       redirect_to root_path
     end
 
     end
 
   private
-  def prototype_params
-    params.require(:prototype).permit(:title, :catch_copy, :concept, :image).merge(user_id: current_user.id)
-  end
+    def prototype_params
+      params.require(:prototype).permit(:title, :catch_copy, :concept, :image_url).merge(user_id: current_user.id)
+    end
 end
