@@ -37,14 +37,18 @@ class PrototypesController < ApplicationController
   end
 
   def destroy
-    @prototype.destroy
-    flash[:success] = "プロトタイプを削除しました。"
-    redirect_to root_path
+    prototype = Prototype.find(params[:id])
+    if prototype.user_id == current_user.id # 投稿者本人か確認
+      prototype.destroy
+      redirect_to root_path, notice: "プロトタイプを削除しました。"
+    else
+      redirect_to root_path
   end
+end
 
   private
   def prototype_params
-    params.require(:prototype).permit(:title, :catch_copy, :concept, :image_url).merge(user_id: current_user.id)
+    params.require(:prototype).permit(:title, :catch_copy, :concept, :image).merge(user_id: current_user.id)
   end
 
   def set_prototype
