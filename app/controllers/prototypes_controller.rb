@@ -16,6 +16,7 @@ class PrototypesController < ApplicationController
     Rails.logger.info("Params are #{prototype_params}")
     
     @prototype = Prototype.new(prototype_params)
+    Rails.logger.info("!!! prototype is #{prototype}")
     if @prototype.save
       redirect_to root_path
     else
