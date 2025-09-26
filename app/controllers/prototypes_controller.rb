@@ -12,6 +12,9 @@ class PrototypesController < ApplicationController
   end
 
   def create
+    Rails.logger.info("Create is called.")
+    Rails.logger.info("Params are #{prototype_params}")
+    
     @prototype = Prototype.new(prototype_params)
     if @prototype.save
       redirect_to root_path
